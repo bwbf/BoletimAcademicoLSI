@@ -71,7 +71,7 @@ public class BaseActivity extends livroandroid.lib.activity.BaseActivity {
                 replaceFragment(new AvaliacoesFragment());
                 break;
             case R.id.nav_item_settings:
-                toast("Configurações");
+                toast("Configurações, em desenvolvimento...");
                 break;
         }
     }

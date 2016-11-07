@@ -161,4 +161,49 @@ public class AlunoMockService {
         } return notas;
 
     }
+
+    public static List<Anotacoes> getAnotacoes() {
+        List<Anotacoes> anotacoes = new ArrayList<>();
+        Anotacoes a = new Anotacoes();
+        a.setTitulo("Mock Teste 1");
+        a.setDescricao("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel porta odio. Donec imperdiet ipsum dolor, in bibendum justo maximus id. Donec varius interdum ornare.");
+
+        anotacoes.add(a);
+
+        a = new Anotacoes();
+        a.setTitulo("Mock Teste 2");
+        a.setDescricao("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel porta odio. Donec imperdiet ipsum dolor, in bibendum justo maximus id. Donec varius interdum ornare.");
+        anotacoes.add(a);
+        return anotacoes;
+    }
+
+
+    public static List<DataProvas> getDataProvas() {
+        List<DataProvas> provas = new ArrayList<>();
+        DataProvas dataProvas = new DataProvas();
+
+        Disciplina disciplina = new Disciplina();
+        disciplina.setNome("PLP");
+        disciplina.setCargaHoraria("3");
+        disciplina.setHoraInicial("18h30");
+        disciplina.setDia("Segunda");
+
+        dataProvas.setDisciplina(disciplina);
+        dataProvas.setData_prova("22/10/2016");
+
+        provas.add(dataProvas);
+
+        dataProvas.setDisciplina(disciplina);
+        dataProvas.setData_prova("22/11/2016");
+        provas.add(dataProvas);
+
+        dataProvas.setDisciplina(disciplina);
+        dataProvas.setData_prova("22/12/2016");
+        provas.add(dataProvas);
+
+        dataProvas.setDisciplina(disciplina);
+        dataProvas.setData_prova("22/11/2017");
+        provas.add(dataProvas);
+        return provas;
+    }
 }
