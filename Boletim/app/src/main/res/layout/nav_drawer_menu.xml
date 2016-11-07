@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_horario"
+            android:checked="true"
+            android:title="Horário" />
+        <item
+            android:id="@+id/nav_notas"
+            android:checked="true"
+            android:title="Notas" />
+        <item
+            android:id="@+id/nav_anotacoes"
+            android:checked="true"
+            android:title="Anotações" />
+        <!-- Lista com os carros de luxo -->
+        <item
+            android:id="@+id/nav_avaliacoes"
+            android:checked="true"
+            android:title="Avaliações" />
+        <item
+            android:id="@+id/nav_item_settings"
+            android:title="Configurações" />
+    </group>
+</menu>

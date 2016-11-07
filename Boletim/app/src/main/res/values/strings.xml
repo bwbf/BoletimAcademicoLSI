@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Boletim Acadêmico</string>
+    <string name="nav_drawer_username">Bruno</string>
+    <string name="nav_drawer_email">1413080041</string>
+
+    <string name="segunda">Segunda</string>
+    <string name="terca">Terça</string>
+    <string name="quarta">Quarta</string>
+    <string name="quinta">Quinta</string>
+    <string name="sexta">Sexta</string>
+</resources>
