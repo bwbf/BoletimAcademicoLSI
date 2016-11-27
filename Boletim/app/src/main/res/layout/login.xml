@@ -37,6 +37,7 @@
             android:layout_marginBottom="5dp"
             android:background="#5555"
             android:padding="5dp"
+            android:inputType="number"
             android:id="@+id/txt_matricula"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

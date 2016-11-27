@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Aluno {
 
+    private int ID;
     private String nome;
     private int matricula;
     private String senha;
@@ -64,5 +65,13 @@ public class Aluno {
 
     public void setDataProvas(List<DataProvas> dataProvas) {
         this.dataProvas = dataProvas;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 }

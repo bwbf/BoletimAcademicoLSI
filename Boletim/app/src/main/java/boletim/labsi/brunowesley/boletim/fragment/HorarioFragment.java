@@ -1,5 +1,6 @@
 package boletim.labsi.brunowesley.boletim.fragment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,13 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.List;
 
+import boletim.labsi.brunowesley.boletim.BoletimApplication;
 import boletim.labsi.brunowesley.boletim.Model.AlunoMockService;
 import boletim.labsi.brunowesley.boletim.Model.Disciplina;
+import boletim.labsi.brunowesley.boletim.Model.Notas;
 import boletim.labsi.brunowesley.boletim.R;
 import boletim.labsi.brunowesley.boletim.activity.BaseActivity;
 import boletim.labsi.brunowesley.boletim.adapter.HorarioAdapter;
+import boletim.labsi.brunowesley.boletim.service.BoletimService;
 
 public class HorarioFragment extends BaseFragment {
     protected RecyclerView recyclerView;
@@ -37,6 +44,11 @@ public class HorarioFragment extends BaseFragment {
         if (getArguments() != null){
             this.tipo = getArguments().getString("tipo");
         }
+        getTaks();
+    }
+
+    private void getTaks() {
+        new GetDisciplinaTask().execute();
     }
 
     @Override
@@ -57,7 +69,8 @@ public class HorarioFragment extends BaseFragment {
     }
 
     private void taskDisciplinas() {
-        this.disciplinas = AlunoMockService.getDisciplinas(getContext(), tipo);
+        //this.disciplinas = AlunoMockService.getDisciplinas(getContext(), tipo);
+        this.disciplinas = BoletimService.getDisciplinas();
         recyclerView.setAdapter(new HorarioAdapter(disciplinas, getContext(), onClickHorario() ));
     }
 
@@ -69,4 +82,31 @@ public class HorarioFragment extends BaseFragment {
             }
         };
     }
+
+    private class GetDisciplinaTask extends AsyncTask<Void, Void, List<Notas>> {
+
+        @Override
+        protected List<Notas> doInBackground(Void... params) {
+
+            try {
+                return BoletimService.getNotas(getContext(), BoletimApplication.getID());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<Notas> notas) {
+            if(disciplinas != null){
+                recyclerView.setAdapter(new HorarioAdapter(disciplinas,getContext(), onClickHorario()));
+            }
+        }
+    }
+
+
 }

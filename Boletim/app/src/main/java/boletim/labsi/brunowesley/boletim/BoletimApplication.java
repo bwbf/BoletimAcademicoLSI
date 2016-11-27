@@ -10,6 +10,15 @@ import android.util.Log;
 public class BoletimApplication extends Application {
     private static final String TAG = "BoletimApplication";
     private static BoletimApplication instance = null;
+    private static int ID;
+
+    public static int getID() {
+        return ID;
+    }
+
+    public static void setID(int ID) {
+        BoletimApplication.ID = ID;
+    }
 
     public static BoletimApplication getInstance(){
         return instance;
