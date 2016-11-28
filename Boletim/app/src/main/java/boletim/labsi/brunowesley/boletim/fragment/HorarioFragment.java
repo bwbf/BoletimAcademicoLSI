@@ -54,6 +54,7 @@ public class HorarioFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle saveInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_horario, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -83,13 +84,13 @@ public class HorarioFragment extends BaseFragment {
         };
     }
 
-    private class GetDisciplinaTask extends AsyncTask<Void, Void, List<Notas>> {
+    private class GetDisciplinaTask extends AsyncTask<Void, Void, List<Disciplina>> {
 
         @Override
-        protected List<Notas> doInBackground(Void... params) {
+        protected List<Disciplina> doInBackground(Void... params) {
 
-            try {
-                return BoletimService.getNotas(getContext(), BoletimApplication.getID());
+            try {BoletimService.getNotas(getContext(), BoletimApplication.getID());
+                return  BoletimService.getDisciplinas();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -101,7 +102,7 @@ public class HorarioFragment extends BaseFragment {
         }
 
         @Override
-        protected void onPostExecute(List<Notas> notas) {
+        protected void onPostExecute(List<Disciplina> disciplinas) {
             if(disciplinas != null){
                 recyclerView.setAdapter(new HorarioAdapter(disciplinas,getContext(), onClickHorario()));
             }

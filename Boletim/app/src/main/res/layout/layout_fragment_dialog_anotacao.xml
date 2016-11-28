@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/txt_titulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Titulo"
+            android:layout_margin="16dp"/>
+        <EditText
+            android:id="@+id/txt_descricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descrição"
+            android:layout_margin="16dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btn_cancelar"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Cancelar"/>
+
+            <Button
+                android:id="@+id/btn_salar"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Salvar"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
