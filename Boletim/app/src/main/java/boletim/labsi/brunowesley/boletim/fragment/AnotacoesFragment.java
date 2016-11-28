@@ -1,9 +1,13 @@
 package boletim.labsi.brunowesley.boletim.fragment;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,15 +29,16 @@ import boletim.labsi.brunowesley.boletim.adapter.AnotacoesAdapter;
 import boletim.labsi.brunowesley.boletim.service.BoletimService;
 
 
-public class AnotacoesFragment extends BaseFragment {
+public class AnotacoesFragment extends BaseFragment{
     private List<Anotacoes> anotacoes = new ArrayList<Anotacoes>();
     protected RecyclerView recyclerView;
+    private final static Anotacoes anotacao = new Anotacoes();
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_anotacoes, container, false);
+        final View view = inflater.inflate(R.layout.fragment_anotacoes, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycleView_anotacoes_dois);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -42,12 +47,19 @@ public class AnotacoesFragment extends BaseFragment {
         view.findViewById(R.id.fab_anotacao).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               new anotacoesTask().execute();
-                new getAnotacoesTask().execute();
+               /*new anotacoesTask().execute();
+                new getAnotacoesTask().execute();*/
+                Intent intent = new Intent(getContext(), FormAnotacoes.class);
+                startActivity(intent);
             }
         });
         return view;
     }
+
+
+
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -64,10 +76,22 @@ public class AnotacoesFragment extends BaseFragment {
         return new AnotacoesAdapter.AnotacoesClickListner() {
             @Override
             public void onClicAnotacoes(View view, int idx) {
-                Anotacoes c = anotacoes.get(idx);
+                if (anotacoes != null && !anotacoes.isEmpty()){
+                    Anotacoes c = anotacoes.get(idx);
+                }
+
             }
         };
     }
+
+  /*  @Override
+    public void info(String descricao, String titulo) {
+        anotacao.setTitulo(titulo);
+        anotacao.setDescricao(descricao);
+        anotacao.setId_aluno(BoletimApplication.getID());
+        new anotacoesTask().execute();
+        new getAnotacoesTask().execute();
+    }*/
 
     private class getAnotacoesTask extends AsyncTask<Void, Void, List<Anotacoes>> {
 
@@ -99,12 +123,8 @@ public class AnotacoesFragment extends BaseFragment {
         @Override
         protected Boolean doInBackground(Void... params) {
 
-            try {Anotacoes anotacoes = new Anotacoes();
-                anotacoes.setTitulo("Teste de Inserir");
-                anotacoes.setDescricao("Funfa");
-                anotacoes.setData("28/11/2016");
-                anotacoes.setId_aluno(BoletimApplication.getID());
-                return  BoletimService.insereAnotacoes(anotacoes);
+            try {
+                return  BoletimService.insereAnotacoes(anotacao);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -125,4 +145,22 @@ public class AnotacoesFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(BoletimApplication.getComunicadorA() != null  && BoletimApplication.getComunicadorB() != null ){
+            anotacao.setTitulo(BoletimApplication.getComunicadorA());
+            anotacao.setDescricao(BoletimApplication.getComunicadorB());
+            anotacao.setId_aluno(BoletimApplication.getID());
+            new anotacoesTask().execute();
+            new getAnotacoesTask().execute();
+            BoletimApplication.setComunicadorA(null);
+            BoletimApplication.setComunicadorB(null);
+        }
+    }
 }

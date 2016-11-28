@@ -1,11 +1,9 @@
 package boletim.labsi.brunowesley.boletim;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import boletim.labsi.brunowesley.boletim.activity.BaseActivity;
 import boletim.labsi.brunowesley.boletim.fragment.HorarioFragment;
-import boletim.labsi.brunowesley.boletim.fragment.HorarioTabFragment;
 
 public class MainActivity extends BaseActivity {
 
@@ -17,4 +15,6 @@ public class MainActivity extends BaseActivity {
         setupNavDrawer();
         replaceFragment(new HorarioFragment());
     }
+
+
 }

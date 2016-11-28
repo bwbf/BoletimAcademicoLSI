@@ -1,0 +1,76 @@
+package com.boletim.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import com.boletim.factory.ConnectionFactory;
+import com.boletim.model.Aluno;
+
+public class AlunoDAO extends ConnectionFactory{
+	
+	private static AlunoDAO instance;
+	
+	public static AlunoDAO getInstance(){
+		if(instance == null){
+			instance = new AlunoDAO();
+		}return instance;
+	}
+	
+	public ArrayList<Aluno> listarTodos(){
+		Connection connection = null;
+		PreparedStatement pstst = null;
+		ResultSet rs = null;
+		ArrayList<Aluno> alunos = null;
+		connection = criarConexao();
+		alunos = new ArrayList<Aluno>();
+		
+		try{
+			pstst = connection.prepareStatement("select * from aluno");
+			rs = pstst.executeQuery();
+			while(rs.next()){
+				Aluno aluno = new Aluno();
+				aluno.setId(rs.getInt("id_aluno"));
+				aluno.setMatricula(rs.getInt("matricula"));
+				aluno.setNome(rs.getString("nome"));
+				aluno.setSenha(rs.getString("senha"));
+				alunos.add(aluno);
+			}
+		}catch (Exception e) {
+			System.out.println("Erro ao buscar Alunos");
+		}finally {
+			fecharConexao(connection, pstst, rs);
+		}
+		return alunos;
+	}
+
+	public Aluno getAluno(Aluno a) {
+		Connection conection = null;
+		Aluno aluno = null;
+		PreparedStatement pstst = null;
+		ResultSet rs = null;
+		conection = criarConexao();
+		aluno = new Aluno();
+		try{
+		pstst = conection.prepareStatement("select * from aluno where matricula='1413080041'");
+		rs = pstst.executeQuery();
+		while(rs.next()){
+			aluno.setId(rs.getInt("id_aluno"));
+			aluno.setNome(rs.getString("nome"));
+			aluno.setMatricula(rs.getInt("matricula"));
+			aluno.setSenha(rs.getString("senha"));
+		}
+		return null;
+		}catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			fecharConexao(conection, pstst, rs);
+		}return aluno;
+	}
+
+	
+	
+	
+
+}

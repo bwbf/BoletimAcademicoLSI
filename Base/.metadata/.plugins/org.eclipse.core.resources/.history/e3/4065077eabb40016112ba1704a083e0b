@@ -1,0 +1,38 @@
+package com.boletim.controller;
+
+import java.util.ArrayList;
+
+import com.boletim.dao.AlunoDAO;
+import com.boletim.model.Aluno;
+import com.boletim.model.Anotacoes;
+import com.boletim.model.DataProvas;
+import com.boletim.model.Disciplina;
+import com.boletim.model.Notas;
+
+public class AlunoController {
+	
+	public ArrayList<Aluno> listarTodos(){
+		return AlunoDAO.getInstance().listarTodos();
+	}
+
+
+	public ArrayList<Notas> listarNotas() {
+		return AlunoDAO.getInstance().listarNotas();
+	}
+
+
+	public ArrayList<Disciplina> listarDisciplinas() {
+		return AlunoDAO.getInstance().listarDisciplinas();
+	}
+
+
+	public ArrayList<Anotacoes> listarAnotacoes() {
+		return AlunoDAO.getInstance().listarAnotacoes();
+	}
+
+
+	public ArrayList<DataProvas> listarDatas() {
+		return AlunoDAO.getInstance().listarDatas();
+	}
+
+}

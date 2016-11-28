@@ -1,0 +1,5 @@
+package com.boletim.factory;
+
+public class ConnectionFactory {
+
+}

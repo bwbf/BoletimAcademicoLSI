@@ -4,6 +4,7 @@ package boletim.labsi.brunowesley.boletim.Model;
  * Created by Bruno on 06/11/2016.
  */
 public class Disciplina{
+    private int id;
     private String nome;
     private String cargaHoraria;
     private String horaInicial;
@@ -40,4 +41,14 @@ public class Disciplina{
     public void setDia(String dia) {
         this.dia = dia;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
 }

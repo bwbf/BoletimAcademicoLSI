@@ -1,0 +1,5 @@
+package com.boletim.controller;
+
+public class AlunoController {
+
+}

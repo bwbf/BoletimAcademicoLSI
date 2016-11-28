@@ -1,0 +1,5 @@
+package com.boletim.dao;
+
+public class AlunoDAO {
+
+}

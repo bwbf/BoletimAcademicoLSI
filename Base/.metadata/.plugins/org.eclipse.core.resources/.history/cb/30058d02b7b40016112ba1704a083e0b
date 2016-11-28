@@ -1,0 +1,68 @@
+package com.boletim.resource;
+
+import java.util.ArrayList;
+
+import javax.websocket.server.PathParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+
+import com.boletim.controller.AlunoController;
+import com.boletim.model.Aluno;
+import com.boletim.model.Anotacoes;
+import com.boletim.model.DataProvas;
+import com.boletim.model.Disciplina;
+import com.boletim.model.Notas;
+
+@Path("/aluno")
+public class AlunoResource {
+
+	Aluno a = new Aluno();
+	
+	
+	
+	@GET
+	@Path("/listarTodos")
+	@Produces("application/json")
+	public ArrayList<Aluno> listarTodos(){
+		return new AlunoController().listarTodos();
+	}
+	
+	@GET
+	@Path("/notas/{id}")
+	@Produces("application/json")
+	public ArrayList<Notas> getNotas(@QueryParam("id") int id){
+		a.setId(1);
+		return new AlunoController().listarNotas(a);
+		
+	}
+	
+	@GET
+	@Path("/disciplinas/{id}")
+	@Produces("application/json")
+	public ArrayList<Disciplina> getDisciplina(@PathParam("id") Integer id){
+		a.setId(id);
+		return new AlunoController().listarDisciplinas(a);
+		
+	}
+	
+	@GET
+	@Path("/anotacoes/{id}")
+	@Produces("application/json")
+	public ArrayList<Anotacoes> getAnotacoes(@PathParam("id") Integer id){
+		a.setId(id);
+		return new AlunoController().listarAnotacoes(a);
+		
+	}
+	
+	@GET
+	@Path("/dataProvas/{id}")
+	@Produces("application/json")
+	public ArrayList<DataProvas> getDataProvas(@PathParam("id") Integer id){
+		a.setId(id);
+		return new AlunoController().listarDatas(a);
+		
+	}
+
+}

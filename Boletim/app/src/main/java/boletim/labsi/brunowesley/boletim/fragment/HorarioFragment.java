@@ -79,7 +79,10 @@ public class HorarioFragment extends BaseFragment {
         return new HorarioAdapter.HorarioOnClickListener(){
             @Override
             public void onClickDisciplina(View view, int idx) {
-                Disciplina c = disciplinas.get(idx);
+                if(disciplinas != null && disciplinas.size()<0){
+                    Disciplina c = disciplinas.get(idx);
+                }
+
             }
         };
     }

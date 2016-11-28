@@ -1,0 +1,5 @@
+package com.boletim.model;
+
+public class Aluno {
+
+}

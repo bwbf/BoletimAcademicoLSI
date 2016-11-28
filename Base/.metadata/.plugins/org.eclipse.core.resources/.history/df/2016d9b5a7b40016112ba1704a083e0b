@@ -1,0 +1,40 @@
+package com.boletim.resource;
+
+import java.util.ArrayList;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+
+import com.boletim.controller.AlunoController;
+import com.boletim.model.Aluno;
+
+@Path("/aluno")
+public class AlunoResource {
+	
+	
+	
+	@GET
+	@Path("/listarTodos")
+	@Produces("application/json")
+	public ArrayList<Aluno> listarTodos(){
+		return new AlunoController().listarTodos();
+	}
+	
+	@GET
+	@Path("/verificaAluno/{matricula}/{senha}")
+	@Produces("application/json")
+	public Aluno retornaAluno(@PathParam("matricula")int matricula, @PathParam("senha") String senha){
+		Aluno a = new Aluno();
+		a.setMatricula(matricula);
+		a.setSenha(senha);
+		return new AlunoController().getAluno(a);
+	}
+	
+	@GET
+	@Path("/notas")
+	@Produces("application/json")
+	public ArrayList<Notas> ret
+
+}

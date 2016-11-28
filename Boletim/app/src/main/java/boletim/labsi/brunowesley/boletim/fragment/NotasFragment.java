@@ -68,7 +68,9 @@ public class NotasFragment extends BaseFragment {
         return new NotasAdapter.NotasOnClickListner() {
             @Override
             public void onClicNotas(View view, int idx) {
-                Notas a = notas.get(idx);
+                if(notas != null && !notas.isEmpty()) {
+                    Notas a = notas.get(idx);
+                }
             }
         };
     }

@@ -20,6 +20,7 @@ import java.util.List;
 import boletim.labsi.brunowesley.boletim.BoletimApplication;
 import boletim.labsi.brunowesley.boletim.Model.Aluno;
 import boletim.labsi.brunowesley.boletim.Model.Anotacoes;
+import boletim.labsi.brunowesley.boletim.Model.DataProvas;
 import boletim.labsi.brunowesley.boletim.Model.Disciplina;
 import boletim.labsi.brunowesley.boletim.Model.Notas;
 import livroandroid.lib.utils.HttpHelper;
@@ -34,10 +35,15 @@ public class BoletimService {
     private static final String URL_NOTAS = "http://192.168.3.103:8080/BaseBoletim/aluno/notas/{id}";
     private static final String URL_ANOTACOES = "http://192.168.3.103:8080/BaseBoletim/aluno/anotacoes/{id}";
     private static final String URL_INSERIR_ANOTACAO = "http://192.168.3.103:8080/BaseBoletim/aluno/insere/anotacao/";
+    private static final String URL_INSERIR_PROVA = "http://192.168.3.103:8080/BaseBoletim/aluno/insere/prova/";
+    private static final String URL_PROVAS = "http://192.168.3.103:8080/BaseBoletim/aluno/dataProvas/{id}";
+    private static final String URL_DISCIPLINA = "http://192.168.3.103:8080/BaseBoletim/aluno/discprova/{nome}";
+
     private static List<Aluno> result = new ArrayList<Aluno>();
     private static List<Notas> notasResult = new ArrayList<Notas>();
     private static List<Disciplina> disciplinasResult = new ArrayList<Disciplina>();
     private static List<Anotacoes> anotacoesResult = new ArrayList<Anotacoes>();
+    private static List<DataProvas> dataResult = new ArrayList<DataProvas>();
 
     public static List<Aluno> getAlunos(Context context) throws IOException{
         String url = URL_LISTAR;
@@ -77,6 +83,52 @@ public class BoletimService {
             throw new IOException(e.getMessage(), e);
         }
         return alunos;
+    }
+
+    public static List<DataProvas> getProvas(Context context, int id) throws IOException, JSONException {
+        String idString = Integer.toString(id);
+        String url = URL_PROVAS.replace("{id}", idString);
+        HttpHelper http = new HttpHelper();
+        String json = http.doGet(url);
+        List<DataProvas> provas = parserJsonProvas(context, json);
+        setDataResult(provas);
+        return  provas;
+    }
+
+    public static void setDataResult(List<DataProvas> data) {
+        dataResult = data;
+    }
+
+    public static List<DataProvas> getDataResult() {
+        return dataResult;
+    }
+
+    private static List<DataProvas> parserJsonProvas(Context context, String json) throws IOException {
+        List<DataProvas> provas = new ArrayList<DataProvas>();
+        try {
+            JSONObject root = new JSONObject(json);
+            JSONArray obj = root.getJSONArray("dataProvas");
+
+            for (int i = 0; i < obj.length(); i++){
+                JSONObject jsonDisciplina = obj.getJSONObject(i);
+                JSONObject provaJSON = obj.getJSONObject(i);
+                JSONObject disciplina = jsonDisciplina.optJSONObject("disciplina");
+                Disciplina dis = new Disciplina();
+                dis.setNome(disciplina.optString("nome"));
+                dis.setHoraInicial(disciplina.optString("horaInicial"));
+                dis.setCargaHoraria(disciplina.optString("cargaHoraria"));
+                dis.setDia(disciplina.optString("dia"));
+                DataProvas prova = new DataProvas();
+                prova.setData_prova(provaJSON.getString("data_prova"));
+                prova.setDisciplina(dis);
+                provas.add(prova);
+            }
+
+        }catch (JSONException e){
+            throw new IOException(e.getMessage(), e);
+        }
+        return provas;
+
     }
 
     public static List<Notas> getNotas(Context context,int id) throws IOException, JSONException {
@@ -167,6 +219,14 @@ public class BoletimService {
         return true;
     }
 
+    public static boolean insereNota(DataProvas data) throws Exception {
+        Gson g = new Gson();
+        String json = g.toJson(data, DataProvas.class);
+        HttpHelper http = new HttpHelper();
+        sendPost(URL_INSERIR_PROVA, json, "POST");
+        return true;
+    }
+
 
     private static void sendPost(String url, String urlParameters, String method) throws Exception {
 
@@ -205,6 +265,22 @@ public class BoletimService {
         //print result
         System.out.println(response.toString());
 
+    }
+
+
+    public static Disciplina getDisplina(Context context) throws IOException, JSONException {
+        String url = URL_DISCIPLINA.replace("{nome}", BoletimApplication.getComunicadorB());
+        HttpHelper http = new HttpHelper();
+        String json = http.doGet(url);
+        Disciplina disciplina = parserDisciplina(context, json);
+        return  disciplina;
+    }
+
+    private static Disciplina parserDisciplina(Context context, String json) throws JSONException {
+        Disciplina d = new Disciplina();
+        JSONObject root = new JSONObject(json);
+        d.setId(root.optInt("id"));
+        return d;
     }
 
 

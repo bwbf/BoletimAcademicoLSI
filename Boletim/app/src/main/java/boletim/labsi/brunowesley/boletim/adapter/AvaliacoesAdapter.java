@@ -32,7 +32,7 @@ public class AvaliacoesAdapter extends RecyclerView.Adapter<AvaliacoesAdapter.Av
 
     @Override
     public AvaliacoesAdapter.AvalicaoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.adapter_anotacoes, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.adapter_avaliacoes, parent, false);
         AvalicaoViewHolder holder = new AvalicaoViewHolder(view);
         return holder;
     }
@@ -40,13 +40,12 @@ public class AvaliacoesAdapter extends RecyclerView.Adapter<AvaliacoesAdapter.Av
     @Override
     public void onBindViewHolder(final AvaliacoesAdapter.AvalicaoViewHolder holder,final int position) {
         DataProvas prova = avaliacoes.get(position);
-        //holder.disciplinanome.setText(prova.getDisciplina().getNome());
-//        holder.data_prova.setText(prova.getData_prova());
+        holder.disciplinanome.setText(prova.getDisciplina().getNome());
+        holder.data_prova.setText(prova.getData_prova());
         if (avaliacoesClickListner != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // A variável position é final
                     avaliacoesClickListner.onClicAvaliacao(holder.itemView, position);
                 }
             });
@@ -72,4 +71,6 @@ public class AvaliacoesAdapter extends RecyclerView.Adapter<AvaliacoesAdapter.Av
             data_prova = (TextView) itemView.findViewById(R.id.data_prova);
         }
     }
+
+
 }

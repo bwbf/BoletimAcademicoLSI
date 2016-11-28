@@ -32,8 +32,7 @@
         <TextView
             android:id="@+id/disciplina_data"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mock"/>
+            android:layout_height="wrap_content"/>
         </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -50,8 +49,7 @@
         <TextView
             android:id="@+id/data_prova"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="28/09/1990 "/>
+            android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 

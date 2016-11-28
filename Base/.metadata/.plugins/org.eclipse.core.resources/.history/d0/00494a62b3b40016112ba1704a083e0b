@@ -1,0 +1,163 @@
+package com.boletim.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.boletim.factory.ConnectionFactory;
+import com.boletim.model.Aluno;
+import com.boletim.model.Anotacoes;
+import com.boletim.model.DataProvas;
+import com.boletim.model.Disciplina;
+import com.boletim.model.Notas;
+
+public class AlunoDAO extends ConnectionFactory{
+	
+	private static AlunoDAO instance;
+	
+	public static AlunoDAO getInstance(){
+		if(instance == null){
+			instance = new AlunoDAO();
+		}return instance;
+	}
+	
+	public ArrayList<Aluno> listarTodos(){
+		Connection connection = null;
+		PreparedStatement pstst = null;
+		ResultSet rs = null;
+		ArrayList<Aluno> alunos = null;
+		connection = criarConexao();
+		alunos = new ArrayList<Aluno>();
+		
+		try{
+			pstst = connection.prepareStatement("select * from alunos");
+			rs = pstst.executeQuery();
+			while(rs.next()){
+				Aluno aluno = new Aluno();
+				aluno.setId(rs.getInt("id_aluno"));
+				aluno.setNome(rs.getString("nome"));
+				aluno.setMatricula(rs.getInt("matricula"));
+				aluno.setSenha(rs.getString("senha"));
+				alunos.add(aluno);
+			}
+		}catch (Exception e) {
+			System.out.println("Erro ao buscar Alunos");
+		}finally {
+			fecharConexao(connection, pstst, rs);
+		}
+		return alunos;
+	}
+
+	public Aluno getAluno(Aluno a) {
+		Connection conection = null;
+		Aluno aluno = null;
+		PreparedStatement pstst = null;
+		ResultSet rs = null;
+		conection = criarConexao();
+		aluno = new Aluno();
+		
+		try{
+		pstst = conection.prepareStatement("select * from alunos where matricula=? and senha=?");
+		pstst.setInt(1, a.getMatricula());
+		pstst.setString(2, a.getSenha());
+		rs = pstst.executeQuery();
+		aluno = gerarAluno(aluno, rs);
+		}catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			fecharConexao(conection, pstst, rs);
+		}
+		return aluno;
+	}
+	
+	
+
+	private Aluno gerarAluno(Aluno aluno, ResultSet rs) throws SQLException {
+		while(rs.next()){
+			
+			Aluno al = new Aluno();
+			al.setId(rs.getInt("id_aluno"));
+			al.setNome(rs.getString("nome"));
+			al.setMatricula(rs.getInt("matricula"));
+			al.setSenha(rs.getString("senha"));
+			aluno = al;
+		}
+		return aluno;
+	}
+
+	public ArrayList<Notas> listarNotas(Aluno a) {
+		Connection connection = null;
+		PreparedStatement pstst = null;
+		ResultSet rs = null;
+		ArrayList<Notas> notas = null;
+		connection = criarConexao();
+		notas = new ArrayList<Notas>();
+		
+		try{
+			pstst = connection.prepareStatement("SELECT notas.*, disciplinas.nome  FROM notas LEFT OUTER JOIN disciplinas ON (notas.id_disciplina = disciplinas.id_disciplina) where id_aluno=?");
+			pstst.setInt(1, a.getId());
+			rs = pstst.executeQuery();
+			while(rs.next()){
+				Notas nota = new Notas();
+				nota.setDisciplina(getDisciplina(rs.getInt("id_disciplina"), connection));
+				nota.setNota_um(rs.getInt("nota_um"));
+				nota.setSub_um(rs.getInt("sub_um"));
+				nota.setNota_dois(rs.getInt("nota_dois"));
+				nota.setSub_dois(rs.getInt("sub_dois"));
+				nota.setNota_final(rs.getInt("prova_final"));
+				notas.add(nota);
+			}
+		}catch (Exception e) {
+			System.out.println("Erro ao buscar Notas");
+		}finally {
+			fecharConexao(connection, pstst, rs);
+		}
+		return notas;
+	}
+
+	public ArrayList<Disciplina> listarDisciplinas(Aluno a) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<Anotacoes> listarAnotacoes(Aluno a) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<DataProvas> listarDatas(Aluno a) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Disciplina getDisciplina(int a, Connection connection){
+		PreparedStatement pstst = null;
+		ResultSet rs = null;
+		Disciplina disciplina = null;
+		disciplina = new Disciplina();
+		try{
+			pstst = connection.prepareStatement("select * from disciplinas where id_disciplina=?");
+			pstst.setInt(1, a);
+			rs = pstst.executeQuery();
+			disciplina = gerarDisciplina(disciplina, rs);
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			return disciplina;
+	}
+
+	private Disciplina gerarDisciplina(Disciplina disciplina, ResultSet rs) throws SQLException {
+		Disciplina dis = new Disciplina();
+		dis.setNome(rs.getString("nome"));
+		dis.setCargaHoraria(rs.getString("cargahoraria"));
+		dis.setDia(rs.getString("horario_dia"));
+		dis.setHoraInicial("horario_hora");
+		return dis;
+	}
+	
+	
+	
+
+}

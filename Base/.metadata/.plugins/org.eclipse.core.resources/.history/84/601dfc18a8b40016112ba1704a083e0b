@@ -1,0 +1,21 @@
+package com.boletim.controller;
+
+import java.util.ArrayList;
+
+import com.boletim.dao.AlunoDAO;
+import com.boletim.model.Aluno;
+import com.boletim.model.Notas;
+
+public class AlunoController {
+	
+	public ArrayList<Aluno> listarTodos(){
+		return AlunoDAO.getInstance().listarTodos();
+	}
+
+
+	public ArrayList<Notas> listarNotas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
